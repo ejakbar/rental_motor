@@ -13,11 +13,14 @@ return new class extends Migration
     {
         Schema::create('bagi_hasils', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('penyewaans_id')->constrained('penyewaans')->onDelete('cascade');
-            $table->decimal('bagi_hasil_pemilik', 10, 2);
-            $table->decimal('bagi_hasil_admin', 10, 2);
-            $table->enum('status_bagi_hasil', ['pending', 'selesai'])->default('pending');
-            $table->date('tanggal_bagi_hasil');
+            $table->foreignId('penyewaan_id')->constrained('penyewaans')->onDelete('cascade');
+            $table->foreignId('pemilik_id')->constrained('penggunas')->onDelete('cascade');
+            $table->decimal('total_biaya_sewa', 12, 2);
+            $table->decimal('persentase_komisi', 5, 2)->default(10.00); // 10%
+            $table->decimal('komisi_admin', 12, 2);
+            $table->decimal('bagi_hasil_pemilik', 12, 2);
+            $table->enum('status_bagi_hasil', ['pending', 'masuk_saldo'])->default('pending');
+            $table->dateTime('tanggal_bagi_hasil');
             $table->timestamps();
         });
     }

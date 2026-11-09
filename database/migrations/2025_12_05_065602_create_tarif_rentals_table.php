@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('tarif_rentals', function (Blueprint $table) {
             $table->id();
             $table->foreignId('motor_id')->constrained('motors')->onDelete('cascade');
-            $table->decimal('tarif_harian', 10, 2);
-            $table->decimal('tarif_mingguan', 10, 2);
-            $table->decimal('tarif_bulanan', 10, 2);
+            $table->decimal('tarif_harian', 12, 2);
+            $table->decimal('tarif_mingguan', 12, 2)->nullable();
+            $table->decimal('tarif_bulanan', 12, 2)->nullable();
             $table->timestamps();
         });
     }

@@ -13,11 +13,14 @@ return new class extends Migration
     {
         Schema::create('pembayarans', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('penyewaans_id')->constrained('penyewaans')->onDelete('cascade');
-            $table->string('jumlah', 100);
-            $table->enum('metode_pembayaran', ['transfer_bank', 'e-wallet', 'cash'])->default('cash');
-            $table->enum('status_pembayaran', ['pending', 'lunas', 'gagal'])->default('pending');
-            $table->date('tanggal_pembayaran');
+            $table->foreignId('penyewaan_id')->constrained('penyewaans')->onDelete('cascade');
+            $table->string('kode_transaksi', 40)->unique();
+            $table->decimal('jumlah', 12, 2);
+            $table->string('metode_pembayaran', 50)->default('va_bca'); // va_bca, va_mandiri, va_bri, qris, gopay, ovo, transfer_bank, cash
+            $table->enum('status_pembayaran', ['pending', 'lunas', 'gagal', 'kadaluarsa'])->default('pending');
+            $table->string('nomor_va_atau_rekening', 50)->nullable();
+            $table->string('bukti_pembayaran')->nullable();
+            $table->dateTime('tanggal_pembayaran')->nullable();
             $table->timestamps();
         });
     }
